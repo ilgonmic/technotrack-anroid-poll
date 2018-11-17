@@ -10,9 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ilgonmic.poll.R
-
-import com.ilgonmic.poll.ui.main.dummy.DummyContent
-import com.ilgonmic.poll.ui.main.dummy.DummyContent.DummyItem
+import com.ilgonmic.poll.data.PollItem
 
 /**
  * A fragment representing a list of Items.
@@ -47,7 +45,7 @@ class PollItemFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyPollItemRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                adapter = MyPollItemRecyclerViewAdapter(emptyList(), listener)
             }
         }
         return view
@@ -80,7 +78,7 @@ class PollItemFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: PollItem?)
     }
 
     companion object {

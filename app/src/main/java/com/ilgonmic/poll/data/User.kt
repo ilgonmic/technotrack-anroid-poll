@@ -1,5 +1,3 @@
 package com.ilgonmic.poll.data
 
-data class User(
-    val name: String
-)
+data class User(override val id: Id, val name: String) : Entity(id)

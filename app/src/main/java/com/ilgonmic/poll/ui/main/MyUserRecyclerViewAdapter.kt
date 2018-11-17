@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.ilgonmic.poll.R
+import com.ilgonmic.poll.data.User
 
 
 import com.ilgonmic.poll.ui.main.UserFragment.OnListFragmentInteractionListener
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_user.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class MyUserRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
+    private val mValues: List<User>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MyUserRecyclerViewAdapter.ViewHolder>() {
 
@@ -27,7 +28,7 @@ class MyUserRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
+            val item = v.tag as User
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -42,8 +43,7 @@ class MyUserRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mContentView.text = item.name
 
         with(holder.mView) {
             tag = item
@@ -54,7 +54,6 @@ class MyUserRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
         val mContentView: TextView = mView.content
 
         override fun toString(): String {
