@@ -1,5 +1,7 @@
 package com.ilgonmic.poll.ui.main
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,18 +17,30 @@ class PollItemFragment : Fragment() {
 
     private var listener: OnListFragmentInteractionListener? = null
 
+    private lateinit var viewModel: DistributorViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        this.viewModel = ViewModelProviders.of(this)
+            .get(DistributorViewModel::class.java)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_pollitem_list, container, false)
 
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = PollItemRecyclerViewAdapter(emptyList(), listener)
+        viewModel.getItems().observe(this, Observer<List<PollItem>> { items ->
+            if (view is RecyclerView) {
+                with(view) {
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = PollItemRecyclerViewAdapter(items ?: emptyList(), listener)
+                }
             }
-        }
+        })
+
         return view
     }
 

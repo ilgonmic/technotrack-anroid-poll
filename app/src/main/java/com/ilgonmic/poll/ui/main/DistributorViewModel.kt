@@ -6,10 +6,7 @@ import android.arch.lifecycle.ViewModel
 import com.ilgonmic.poll.data.Id
 import com.ilgonmic.poll.data.PollItem
 import com.ilgonmic.poll.data.User
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class DistributorViewModel : ViewModel() {
 
@@ -22,30 +19,45 @@ class DistributorViewModel : ViewModel() {
     fun getUsers(): LiveData<List<User>> {
         if (!::users.isInitialized) {
             users = MutableLiveData()
-            loadUsers()
+            uiScope.launch {
+                users.value = loadUsers()
+            }
         }
 
         return users
     }
 
-    fun getItems(): LiveData<List<User>> {
+    fun getItems(): LiveData<List<PollItem>> {
         if (!::items.isInitialized) {
             items = MutableLiveData()
-            loadItems()
+            uiScope.launch {
+                items.value = loadItems()
+            }
         }
 
-        return users
+        return items
     }
 
-    private fun loadUsers() {
-        uiScope.launch {
-            users.value = listOf("A", "B", "C", "D")
-                .map { User(Id(it), it) }
+    private suspend fun loadUsers(): List<User> {
+        return coroutineScope {
+            val candidates = async {
+                listOf("A", "B", "C", "D")
+                    .map { User(Id(it), it) }
+            }
+
+            candidates.await()
         }
     }
 
-    private fun loadItems() {
-        // Do an asynchronous operation to fetch users.
+    private suspend fun loadItems(): List<PollItem> {
+        return coroutineScope {
+            val candidates = async {
+                listOf("Whiskey", "Vodka", "Long Island", "Kahlua")
+                    .map { PollItem(Id(it), it) }
+            }
+
+            candidates.await()
+        }
     }
 
     override fun onCleared() {
