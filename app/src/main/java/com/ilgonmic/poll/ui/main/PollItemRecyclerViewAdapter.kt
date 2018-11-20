@@ -11,10 +11,10 @@ import com.ilgonmic.poll.data.PollItem
 import com.ilgonmic.poll.ui.main.PollItemFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_pollitem.view.*
 
-class MyPollItemRecyclerViewAdapter(
+class PollItemRecyclerViewAdapter(
     private val mValues: List<PollItem>,
     private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<MyPollItemRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PollItemRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 

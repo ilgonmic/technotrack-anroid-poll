@@ -45,7 +45,7 @@ class UserFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyUserRecyclerViewAdapter(emptyList(), listener)
+                adapter = UserRecyclerViewAdapter(emptyList(), listener)
             }
         }
         return view

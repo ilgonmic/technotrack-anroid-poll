@@ -11,10 +11,10 @@ import com.ilgonmic.poll.data.User
 import com.ilgonmic.poll.ui.main.UserFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
-class MyUserRecyclerViewAdapter(
+class UserRecyclerViewAdapter(
     private val mValues: List<User>,
     private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<MyUserRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<UserRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 

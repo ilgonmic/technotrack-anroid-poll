@@ -45,7 +45,7 @@ class PollItemFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyPollItemRecyclerViewAdapter(emptyList(), listener)
+                adapter = PollItemRecyclerViewAdapter(emptyList(), listener)
             }
         }
         return view
