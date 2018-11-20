@@ -1,5 +1,6 @@
 package com.ilgonmic.poll.ui.main
 
+
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -7,18 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.ilgonmic.poll.R
 import com.ilgonmic.poll.data.PollItem
-
-
 import com.ilgonmic.poll.ui.main.PollItemFragment.OnListFragmentInteractionListener
-import com.ilgonmic.poll.ui.main.dummy.DummyContent.DummyItem
-
 import kotlinx.android.synthetic.main.fragment_pollitem.view.*
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
 class MyPollItemRecyclerViewAdapter(
     private val mValues: List<PollItem>,
     private val mListener: OnListFragmentInteractionListener?
