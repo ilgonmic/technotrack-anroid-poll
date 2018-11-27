@@ -38,8 +38,13 @@ class PollItemRecyclerViewAdapter(
         val item = mValues[position]
         holder.mContentView.text = item.value
 
+        mValues
+            .forEach { holder.selectedItems.put(position, it.selected) }
+
         with(holder.mView) {
             tag = item
+            isSelected = item.selected
+
             setOnClickListener { v ->
                 if (holder.selectedItems.get(holder.adapterPosition, false)) {
                     holder.selectedItems.delete(holder.adapterPosition)
@@ -48,6 +53,8 @@ class PollItemRecyclerViewAdapter(
                     holder.selectedItems.put(holder.adapterPosition, true)
                     v.isSelected = true
                 }
+
+                item.selected = !item.selected
 
                 mOnClickListener.onClick(v)
             }

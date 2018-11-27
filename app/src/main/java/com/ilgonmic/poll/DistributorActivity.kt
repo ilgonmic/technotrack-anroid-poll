@@ -16,11 +16,11 @@ class DistributorActivity : AppCompatActivity(),
     private lateinit var viewModel: DistributorViewModel
 
     override fun onListFragmentInteraction(item: User?) {
-        // do nothing
+
     }
 
     override fun onListFragmentInteraction(item: PollItem?) {
-        // do nothing
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,5 +29,21 @@ class DistributorActivity : AppCompatActivity(),
 
         this.viewModel = ViewModelProviders.of(this)
             .get(DistributorViewModel::class.java)
+    }
+}
+
+fun <E> MutableSet<E>.toggle(item: E) {
+    if (this.contains(item)) {
+        this.remove(item)
+    } else {
+        this.add(item)
+    }
+}
+
+fun <E> MutableList<E>.toggle(item: E) {
+    if (this.contains(item)) {
+        this.remove(item)
+    } else {
+        this.add(item)
     }
 }

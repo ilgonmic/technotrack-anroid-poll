@@ -9,13 +9,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.ilgonmic.poll.R
 import com.ilgonmic.poll.data.User
-import com.ilgonmic.poll.ui.main.UserFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
 
 class UserRecyclerViewAdapter(
     private val mValues: List<User>,
-    private val mListener: OnListFragmentInteractionListener?
+    private val mListener: UserFragment.OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<UserRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -39,8 +38,13 @@ class UserRecyclerViewAdapter(
         val item = mValues[position]
         holder.mContentView.text = item.name
 
+        mValues
+            .forEach { holder.selectedItems.put(position, it.selected) }
+
         with(holder.mView) {
             tag = item
+            isSelected = item.selected
+
             setOnClickListener { v ->
                 if (holder.selectedItems.get(holder.adapterPosition, false)) {
                     holder.selectedItems.delete(holder.adapterPosition)
@@ -49,6 +53,8 @@ class UserRecyclerViewAdapter(
                     holder.selectedItems.put(holder.adapterPosition, true)
                     v.isSelected = true
                 }
+
+                item.selected = !item.selected
 
                 mOnClickListener.onClick(v)
             }
