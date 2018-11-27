@@ -13,11 +13,11 @@ class DistributorViewModel : ViewModel() {
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    private lateinit var users: MutableLiveData<List<User>>
+    private lateinit var users: MutableLiveData<List<SelectableItem<User>>>
 
-    private lateinit var items: MutableLiveData<List<PollItem>>
+    private lateinit var items: MutableLiveData<List<SelectableItem<PollItem>>>
 
-    fun getUsers(): LiveData<List<User>> {
+    fun getUsers(): LiveData<List<SelectableItem<User>>> {
         if (!::users.isInitialized) {
             users = MutableLiveData()
             uiScope.launch {
@@ -28,7 +28,7 @@ class DistributorViewModel : ViewModel() {
         return users
     }
 
-    fun getItems(): LiveData<List<PollItem>> {
+    fun getItems(): LiveData<List<SelectableItem<PollItem>>> {
         if (!::items.isInitialized) {
             items = MutableLiveData()
             uiScope.launch {
@@ -39,22 +39,24 @@ class DistributorViewModel : ViewModel() {
         return items
     }
 
-    private suspend fun loadUsers(): List<User> {
+    private suspend fun loadUsers(): List<SelectableItem<User>> {
         return coroutineScope {
             val candidates = async {
                 listOf("A", "B", "C", "D")
                     .map { User(Id(it), it) }
+                    .map { SelectableItem(it, false) }
             }
 
             candidates.await()
         }
     }
 
-    private suspend fun loadItems(): List<PollItem> {
+    private suspend fun loadItems(): List<SelectableItem<PollItem>> {
         return coroutineScope {
             val candidates = async {
                 listOf("Whiskey", "Vodka", "Long Island", "Kahlua")
                     .map { PollItem(Id(it), it) }
+                    .map { SelectableItem(it, false) }
             }
 
             candidates.await()

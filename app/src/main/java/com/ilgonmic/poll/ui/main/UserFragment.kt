@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ilgonmic.poll.R
+import com.ilgonmic.poll.data.Entity
 import com.ilgonmic.poll.data.User
 
 class UserFragment : Fragment() {
@@ -32,14 +33,19 @@ class UserFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user_list, container, false)
 
-        viewModel.getUsers().observe(this, Observer<List<User>> { users ->
-            if (view is RecyclerView) {
-                with(view) {
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = UserRecyclerViewAdapter(users ?: emptyList(), listener)
-                }
+        if (view is RecyclerView) {
+            with(view) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = UserRecyclerViewAdapter(listener)
+                    .apply {
+                        viewModel.getUsers()
+                            .observe(this@UserFragment, Observer<List<SelectableItem<User>>> { items ->
+                                this.mValues.clear()
+                                this.mValues.addAll(items ?: emptyList())
+                            })
+                    }
             }
-        })
+        }
 
         return view
     }
@@ -60,6 +66,6 @@ class UserFragment : Fragment() {
 
 
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: User?)
+        fun onListFragmentInteraction(item: SelectableItem<Entity>?)
     }
 }

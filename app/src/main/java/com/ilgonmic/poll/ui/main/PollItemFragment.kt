@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ilgonmic.poll.R
+import com.ilgonmic.poll.data.Entity
 import com.ilgonmic.poll.data.PollItem
 
 class PollItemFragment : Fragment() {
@@ -32,14 +33,19 @@ class PollItemFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_pollitem_list, container, false)
 
-        viewModel.getItems().observe(this, Observer<List<PollItem>> { items ->
-            if (view is RecyclerView) {
-                with(view) {
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = PollItemRecyclerViewAdapter(items ?: emptyList(), listener)
-                }
+        if (view is RecyclerView) {
+            with(view) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = PollItemRecyclerViewAdapter(listener)
+                    .apply {
+                        viewModel.getItems()
+                            .observe(this@PollItemFragment, Observer<List<SelectableItem<PollItem>>> { items ->
+                                this.mValues.clear()
+                                this.mValues.addAll(items ?: emptyList())
+                            })
+                    }
             }
-        })
+        }
 
         return view
     }
@@ -59,6 +65,6 @@ class PollItemFragment : Fragment() {
     }
 
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: PollItem?)
+        fun onListFragmentInteraction(item: SelectableItem<Entity>?)
     }
 }
