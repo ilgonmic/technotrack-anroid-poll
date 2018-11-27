@@ -2,6 +2,7 @@ package com.ilgonmic.poll.ui.main
 
 
 import android.support.v7.widget.RecyclerView
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.ilgonmic.poll.R
 import com.ilgonmic.poll.data.User
 import com.ilgonmic.poll.ui.main.UserFragment.OnListFragmentInteractionListener
 import kotlinx.android.synthetic.main.fragment_user.view.*
+
 
 class UserRecyclerViewAdapter(
     private val mValues: List<User>,
@@ -39,7 +41,17 @@ class UserRecyclerViewAdapter(
 
         with(holder.mView) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            setOnClickListener { v ->
+                if (holder.selectedItems.get(holder.adapterPosition, false)) {
+                    holder.selectedItems.delete(holder.adapterPosition)
+                    v.isSelected = false
+                } else {
+                    holder.selectedItems.put(holder.adapterPosition, true)
+                    v.isSelected = true
+                }
+
+                mOnClickListener.onClick(v)
+            }
         }
     }
 
@@ -47,6 +59,8 @@ class UserRecyclerViewAdapter(
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mContentView: TextView = mView.content
+
+        val selectedItems = SparseBooleanArray()
 
         override fun toString(): String {
             return super.toString() + " '" + mContentView.text + "'"

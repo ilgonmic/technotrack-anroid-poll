@@ -14,10 +14,10 @@ class DistributorViewModel : ViewModel() {
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     private lateinit var users: MutableLiveData<List<User>>
-    private lateinit var selectedUsers: MutableLiveData<List<User>>
+    private lateinit var selectedUsers: MutableLiveData<MutableList<User>>
 
     private lateinit var items: MutableLiveData<List<PollItem>>
-    private lateinit var selecteItems: MutableLiveData<List<PollItem>>
+    private lateinit var selecteItems: MutableLiveData<MutableList<PollItem>>
 
     fun getUsers(): LiveData<List<User>> {
         if (!::users.isInitialized) {
@@ -30,10 +30,10 @@ class DistributorViewModel : ViewModel() {
         return users
     }
 
-    fun getSelectedUsers(): LiveData<List<User>> {
+    fun getSelectedUsers(): MutableLiveData<MutableList<User>> {
         if (!::users.isInitialized) {
             selectedUsers = MutableLiveData()
-            selectedUsers.value = emptyList()
+            selectedUsers.value = mutableListOf()
         }
 
         return selectedUsers
@@ -50,10 +50,10 @@ class DistributorViewModel : ViewModel() {
         return items
     }
 
-    fun getSelectedItems(): LiveData<List<PollItem>> {
+    fun getSelectedItems(): MutableLiveData<MutableList<PollItem>> {
         if (!::users.isInitialized) {
             selecteItems = MutableLiveData()
-            selecteItems.value = emptyList()
+            selecteItems.value = mutableListOf()
         }
 
         return selecteItems

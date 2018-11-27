@@ -16,11 +16,11 @@ class DistributorActivity : AppCompatActivity(),
     private lateinit var viewModel: DistributorViewModel
 
     override fun onListFragmentInteraction(item: User?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // do nothing
     }
 
     override fun onListFragmentInteraction(item: PollItem?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // do nothing
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
