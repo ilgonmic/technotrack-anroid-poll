@@ -8,22 +8,39 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.ilgonmic.poll.R
 import com.ilgonmic.poll.data.PollItem
-import com.ilgonmic.poll.ui.main.PollItemFragment.OnListFragmentInteractionListener
+import com.ilgonmic.poll.ui.main.PollItemFragment.ModeChangedListener
 import kotlinx.android.synthetic.main.fragment_pollitem.view.*
 
 class PollItemRecyclerViewAdapter(
-    private val mListener: OnListFragmentInteractionListener?
+    private val mListener: ModeChangedListener?
 ) : RecyclerView.Adapter<PollItemRecyclerViewAdapter.ViewHolder>() {
 
     val mValues: MutableList<SelectableItem<PollItem>> = mutableListOf()
     private val mOnClickListener: View.OnClickListener
 
+    private val mutex: Mutex = Mutex()
+    private var mode: Mode = Mode.DEFAULT
+        set(value) {
+            if (field != value) {
+                field = value
+                mListener?.onPollModeChanged(value)
+            }
+        }
+
     init {
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as SelectableItem<*>
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
+            if (item.selected) {
+                mutex.lock()
+            } else {
+                mutex.unlock()
+            }
+
+            mode = if (mutex.isLock()) {
+                Mode.ACTIVE
+            } else {
+                Mode.DEFAULT
+            }
         }
     }
 

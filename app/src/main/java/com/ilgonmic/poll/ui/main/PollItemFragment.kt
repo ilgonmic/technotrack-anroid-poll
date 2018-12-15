@@ -11,12 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ilgonmic.poll.R
-import com.ilgonmic.poll.data.Entity
 import com.ilgonmic.poll.data.PollItem
 
 class PollItemFragment : Fragment() {
 
-    private var listener: OnListFragmentInteractionListener? = null
+    private var listener: ModeChangedListener? = null
 
     private lateinit var viewModel: DistributorViewModel
 
@@ -40,6 +39,7 @@ class PollItemFragment : Fragment() {
                     .apply {
                         viewModel.getItems()
                             .observe(this@PollItemFragment, Observer<List<SelectableItem<PollItem>>> { items ->
+                                //Todo use diff util intead
                                 this.mValues.clear()
                                 this.mValues.addAll(items ?: emptyList())
                             })
@@ -52,10 +52,10 @@ class PollItemFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is ModeChangedListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException(context.toString() + " must implement ModeChangedListener")
         }
     }
 
@@ -64,7 +64,7 @@ class PollItemFragment : Fragment() {
         listener = null
     }
 
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: SelectableItem<Entity>?)
+    interface ModeChangedListener {
+        fun onPollModeChanged(value: Mode)
     }
 }

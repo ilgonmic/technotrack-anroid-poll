@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Poll</string>
     <string name="calculate">Calculate</string>
+    <string name="Add">Add</string>
 </resources>
