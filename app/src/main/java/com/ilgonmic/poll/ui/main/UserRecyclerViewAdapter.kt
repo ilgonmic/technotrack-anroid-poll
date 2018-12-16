@@ -58,6 +58,16 @@ class UserRecyclerViewAdapter(
             tag = item
             isSelected = item.selected
 
+            if (item.selected) {
+                mutex.lock()
+            }
+
+            if (mutex.isLock()) {
+                mode = Mode.ACTIVE
+            } else {
+                mode = Mode.DEFAULT
+            }
+
             setOnClickListener { v ->
                 item.selected = !item.selected
                 isSelected = item.selected

@@ -19,7 +19,7 @@ class PollItemRecyclerViewAdapter(
     private val mOnClickListener: View.OnClickListener
 
     private val mutex: Mutex = Mutex()
-    private var mode: Mode = Mode.DEFAULT
+    var mode: Mode = Mode.DEFAULT
         set(value) {
             if (field != value) {
                 field = value
@@ -57,6 +57,16 @@ class PollItemRecyclerViewAdapter(
         with(holder.mView) {
             tag = item
             isSelected = item.selected
+
+            if (item.selected) {
+                mutex.lock()
+            }
+
+            if (mutex.isLock()) {
+                mode = Mode.ACTIVE
+            } else {
+                mode = Mode.DEFAULT
+            }
 
             setOnClickListener { v ->
                 item.selected = !item.selected

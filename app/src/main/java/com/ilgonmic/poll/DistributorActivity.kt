@@ -13,21 +13,30 @@ class DistributorActivity : AppCompatActivity(),
     UserFragment.ModeChangedListener,
     PollItemFragment.ModeChangedListener {
 
-    private lateinit var userMode: Mode
-    private lateinit var pollMode: Mode
+    private var userMode: Mode = Mode.DEFAULT
+        set(value) {
+            field = value
+            changeMode(value, pollMode)
+        }
+
+    private var pollMode: Mode = Mode.DEFAULT
+        set(value) {
+            field = value
+            changeMode(value, userMode)
+        }
 
     override fun onUserModeChanged(value: Mode) {
         userMode = value
-        if (value == Mode.DEFAULT && pollMode == Mode.DEFAULT) {
-            calculate_button.text = getString(R.string.calculate)
-        } else {
-            calculate_button.text = getString(R.string.Add)
-        }
+        changeMode(value, pollMode)
     }
 
     override fun onPollModeChanged(value: Mode) {
         pollMode = value
-        if (value == Mode.DEFAULT && userMode == Mode.DEFAULT) {
+        changeMode(value, userMode)
+    }
+
+    private fun changeMode(value: Mode, another: Mode) {
+        if (value == Mode.DEFAULT && another == Mode.DEFAULT) {
             calculate_button.text = getString(R.string.calculate)
         } else {
             calculate_button.text = getString(R.string.Add)
@@ -40,12 +49,26 @@ class DistributorActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.distributor_activity)
 
-        userMode = savedInstanceState?.get("user_mode") as? Mode ?: Mode.DEFAULT
-        pollMode = savedInstanceState?.get("poll_mode") as? Mode ?: Mode.DEFAULT
+        userMode = if (savedInstanceState?.getBoolean(USER_MODE) != false) Mode.DEFAULT else Mode.ACTIVE
+        pollMode = if (savedInstanceState?.getBoolean(POLL_MODE) != false) Mode.DEFAULT else Mode.ACTIVE
 
         this.viewModel = ViewModelProviders.of(this)
             .get(DistributorViewModel::class.java)
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
 
+        if (outState == null) {
+            return
+        }
+
+        outState.putBoolean(USER_MODE, userMode == Mode.DEFAULT)
+        outState.putBoolean(POLL_MODE, pollMode == Mode.DEFAULT)
+    }
+
+    companion object {
+        private val USER_MODE = "user_mode"
+        private val POLL_MODE = "poll_mode"
+    }
 }
