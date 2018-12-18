@@ -13,6 +13,8 @@ class DistributorActivity : AppCompatActivity(),
     UserFragment.ModeChangedListener,
     PollItemFragment.ModeChangedListener {
 
+    private lateinit var viewModel: DistributorViewModel
+
     private var userMode: Mode = Mode.DEFAULT
         set(value) {
             field = value
@@ -24,6 +26,17 @@ class DistributorActivity : AppCompatActivity(),
             field = value
             changeMode(value, userMode)
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.distributor_activity)
+
+        userMode = if (savedInstanceState?.getBoolean(USER_MODE) != false) Mode.DEFAULT else Mode.ACTIVE
+        pollMode = if (savedInstanceState?.getBoolean(POLL_MODE) != false) Mode.DEFAULT else Mode.ACTIVE
+
+        this.viewModel = ViewModelProviders.of(this)
+            .get(DistributorViewModel::class.java)
+    }
 
     override fun onUserModeChanged(value: Mode) {
         userMode = value
@@ -41,19 +54,6 @@ class DistributorActivity : AppCompatActivity(),
         } else {
             calculate_button.text = getString(R.string.Add)
         }
-    }
-
-    private lateinit var viewModel: DistributorViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.distributor_activity)
-
-        userMode = if (savedInstanceState?.getBoolean(USER_MODE) != false) Mode.DEFAULT else Mode.ACTIVE
-        pollMode = if (savedInstanceState?.getBoolean(POLL_MODE) != false) Mode.DEFAULT else Mode.ACTIVE
-
-        this.viewModel = ViewModelProviders.of(this)
-            .get(DistributorViewModel::class.java)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
