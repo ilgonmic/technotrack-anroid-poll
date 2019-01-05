@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,12 @@ class PollItemFragment : Fragment() {
                                 //Todo use diff util intead
                                 this.mValues.clear()
                                 this.mValues.addAll(items ?: emptyList())
+                            })
+
+                        viewModel.changeMode()
+                            .observe(this@PollItemFragment, Observer<Mode> { mode ->
+                                Log.i("poll item", "$mode")
+                                this.reset()
                             })
                     }
             }

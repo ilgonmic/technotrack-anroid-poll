@@ -79,6 +79,12 @@ class PollItemRecyclerViewAdapter(
 
     override fun getItemCount(): Int = mValues.size
 
+    fun reset() {
+        mode = Mode.DEFAULT
+        mValues.forEach { value -> value.selected = false }
+        mutex.free()
+    }
+
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mContentView: TextView = mView.content
 

@@ -3,6 +3,7 @@ package com.ilgonmic.poll
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.ilgonmic.poll.ui.main.DistributorViewModel
 import com.ilgonmic.poll.ui.main.Mode
 import com.ilgonmic.poll.ui.main.PollItemFragment
@@ -53,7 +54,14 @@ class DistributorActivity : AppCompatActivity(),
             calculate_button.text = getString(R.string.calculate)
         } else {
             calculate_button.text = getString(R.string.Add)
+            calculate_button.setOnClickListener { createAddButtonHandler() }
         }
+    }
+
+    private fun createAddButtonHandler() {
+        Log.i("activity", "click")
+        viewModel._mode.value = Mode.DEFAULT
+        viewModel._mode.value = Mode.ACTIVE
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

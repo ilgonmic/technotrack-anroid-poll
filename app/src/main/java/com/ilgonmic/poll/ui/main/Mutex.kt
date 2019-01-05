@@ -18,4 +18,8 @@ class Mutex {
     fun isLock(): Boolean {
         return count > 0
     }
+
+    fun free() {
+        count = 0
+    }
 }
