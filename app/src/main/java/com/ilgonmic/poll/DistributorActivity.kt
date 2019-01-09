@@ -60,8 +60,8 @@ class DistributorActivity : AppCompatActivity(),
 
     private fun createAddButtonHandler() {
         Log.i("activity", "click")
-        viewModel._mode.value = Mode.DEFAULT
-        viewModel._mode.value = Mode.ACTIVE
+        viewModel.changeMode(Mode.DEFAULT)
+        viewModel.changeMode(Mode.ACTIVE)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

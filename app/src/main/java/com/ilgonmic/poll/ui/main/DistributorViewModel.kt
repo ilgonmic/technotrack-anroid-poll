@@ -17,7 +17,7 @@ class DistributorViewModel : ViewModel() {
 
     private lateinit var items: MutableLiveData<List<SelectableItem<PollItem>>>
 
-    var _mode: MutableLiveData<Mode> = MutableLiveData()
+    private val _mode: MutableLiveData<Mode> = MutableLiveData()
 
     fun getUsers(): LiveData<List<SelectableItem<User>>> {
         if (!::users.isInitialized) {
@@ -65,8 +65,12 @@ class DistributorViewModel : ViewModel() {
         }
     }
 
-    fun changeMode(): LiveData<Mode> {
+    fun getMode(): LiveData<Mode> {
         return _mode
+    }
+
+    fun changeMode(mode: Mode) {
+        _mode.value = mode
     }
 
     override fun onCleared() {

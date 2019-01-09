@@ -45,7 +45,7 @@ class PollItemFragment : Fragment() {
                                 this.mValues.addAll(items ?: emptyList())
                             })
 
-                        viewModel.changeMode()
+                        viewModel.getMode()
                             .observe(this@PollItemFragment, Observer<Mode> { mode ->
                                 Log.i("poll item", "$mode")
                                 this.reset()

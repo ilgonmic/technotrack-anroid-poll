@@ -44,7 +44,7 @@ class UserFragment : Fragment() {
                                 this.mValues.addAll(items ?: emptyList())
                             })
 
-                        viewModel.changeMode()
+                        viewModel.getMode()
                             .observe(this@UserFragment, Observer<Mode> { mode ->
                                 this.reset()
                             })
