@@ -62,6 +62,20 @@ class DistributorActivity : AppCompatActivity(),
         Log.i("activity", "click")
         viewModel.changeMode(Mode.DEFAULT)
         viewModel.changeMode(Mode.ACTIVE)
+
+        viewModel.getUsers()
+            .value
+            ?.filter { it.selected }
+            ?.forEach {
+                val items = viewModel
+                    .getItems()
+                    .value
+                    ?.filter { it.selected }
+                    ?.map { it.entity }
+                    ?: emptyList()
+
+                it.entity.items.addAll(items)
+            }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
