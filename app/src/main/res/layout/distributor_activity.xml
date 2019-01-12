@@ -8,7 +8,7 @@
         android:id="@+id/content-container"
         android:name="com.ilgonmic.poll.ui.main.PollItemFragment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@id/calculate-button"
         app:layout_constraintWidth_percent="0.7" />
@@ -17,17 +17,17 @@
         android:id="@+id/user-container"
         android:name="com.ilgonmic.poll.ui.main.UserFragment"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         app:layout_constraintBottom_toTopOf="@id/calculate-button"
         app:layout_constraintLeft_toRightOf="@id/content-container"
         app:layout_constraintWidth_percent="0.3" />
 
     <Button
-        android:id="@+id/calculate-button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/calculate"
-        app:layout_constraintBottom_toBottomOf="parent" />
+            android:id="@+id/calculate-button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/calculate"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

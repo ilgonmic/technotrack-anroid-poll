@@ -1,5 +1,7 @@
 package com.ilgonmic.poll.data
 
 data class User(
-    val name: String
-)
+    override val id: Id,
+    val name: String,
+    val items: MutableSet<PollItem> = mutableSetOf()
+) : Entity(id)
